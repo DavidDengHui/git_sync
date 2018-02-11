@@ -2,6 +2,16 @@
 # Author: David Deng
 # Url: https://covear.top
 
+get_char(){
+        SAVEDSTTY=`stty -g`
+        stty -echo
+        stty cbreak
+        dd if=/dev/tty bs=1 count=1 2> /dev/null
+        stty -raw
+        stty echo
+        stty $SAVEDSTTY
+}
+
 echo -e "\n【 开始同步 】\n"
 
 read -p "请输入本地文件夹路径: " Local
@@ -59,6 +69,8 @@ echo -e "【 添加本地文件 】"
 git add ${Local}
 echo -e "【 显示文件变化 】"
 git status
+echo -e "【请按任意键继续】"
+char=`get_char`
 echo -e "【 更新本地仓库 】"
 git commit -m "${MSG}"
 echo -e "【 添加远程仓库 】"
@@ -73,16 +85,17 @@ git remote rm ${Name}
 echo -e "\n【 同步完成 】\n"
 
 echo \#!/bin/bash >./git_sync
+(
 cat <<EOF
 
 get_char(){
-	SAVEDSTTY=`stty -g`
+	SAVEDSTTY=\`stty -g\`
 	stty -echo
 	stty cbreak
 	dd if=/dev/tty bs=1 count=1 2> /dev/null
 	stty -raw
 	stty echo
-	stty $SAVEDSTTY
+	stty \$SAVEDSTTY
 }
 
 EOF
