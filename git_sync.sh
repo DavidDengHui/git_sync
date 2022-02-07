@@ -20,7 +20,7 @@ read -p "请输入远程仓库用户邮箱: " Email
 read -p "请输入远程仓库名: " Name
 read -p "请输入对本次上传的描述: " MSG
 SSH="git@github.com:"${User}"/"${Name}".git"
-SSH2="git@github.com:"${User}"/"${Name}".git"
+SSH2="git@gitee.com:"${User}"/"${Name}".git"
 
 cd ${Local}
 
