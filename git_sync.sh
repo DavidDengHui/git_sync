@@ -20,6 +20,7 @@ read -p "请输入远程仓库用户邮箱: " Email
 read -p "请输入远程仓库名: " Name
 read -p "请输入对本次上传的描述: " MSG
 SSH="git@github.com:"${User}"/"${Name}".git"
+SSH2="git@github.com:"${User}"/"${Name}".git"
 
 cd ${Local}
 
@@ -65,6 +66,7 @@ EOF
 ) >>./.git/config
 	fi
 fi
+
 echo -e "【 添加本地文件 】"
 git add ${Local}
 echo -e "【 显示文件变化 】"
@@ -73,13 +75,24 @@ echo -e "【请按任意键继续】"
 char=`get_char`
 echo -e "【 更新本地仓库 】"
 git commit -m "${MSG}"
-echo -e "【 添加远程仓库 】"
-git remote add ${Name} ${SSH}
-echo -e "【 添加远程链接 】"
-git remote set-url ${Name} ${SSH}
-echo -e "【 上传远程仓库 】"
+
+echo -e "【 添加Gitee远程仓库 】"
+git remote add ${Name} ${SSH2}
+echo -e "【 添加Gitee远程链接 】"
+git remote set-url ${Name} ${SSH2}
+echo -e "【 上传Gitee远程仓库 】"
 git push -u ${Name} +master
-echo -e "【 删除远程缓存 】"
+echo -e "【 删除Gitee远程缓存 】"
+git remote rm ${Name}
+
+
+echo -e "【 添加Github远程仓库 】"
+git remote add ${Name} ${SSH}
+echo -e "【 添加Github远程链接 】"
+git remote set-url ${Name} ${SSH}
+echo -e "【 上传Github远程仓库 】"
+git push -u ${Name} +master
+echo -e "【 删除Github远程缓存 】"
 git remote rm ${Name}
 
 echo -e "\n【 同步完成 】\n"
@@ -111,14 +124,25 @@ echo echo -e \"【请按任意键继续】\" >>./git_sync
 echo char=\`get_char\` >>./git_sync
 echo echo -e \"【 更新本地仓库 】\" >>./git_sync
 echo git commit -m \"\${MSG}\" >>./git_sync
-echo echo -e \"【 添加远程仓库 】\" >>./git_sync
-echo git remote add ${Name} ${SSH} >>./git_sync
-echo echo -e \"【 添加远程链接 】\" >>./git_sync
-echo git remote set-url ${Name} ${SSH} >>./git_sync
-echo echo -e \"【 上传远程仓库 】\" >>./git_sync
+
+echo echo -e \"【 添加Gitee远程仓库 】\" >>./git_sync
+echo git remote add ${Name} ${SSH2} >>./git_sync
+echo echo -e \"【 添加Gitee远程链接 】\" >>./git_sync
+echo git remote set-url ${Name} ${SSH2} >>./git_sync
+echo echo -e \"【 上传Gitee远程仓库 】\" >>./git_sync
 echo git push -u ${Name} +master >>./git_sync
-echo echo -e \"【 删除远程缓存 】\" >>./git_sync
+echo echo -e \"【 删除Gitee远程缓存 】\" >>./git_sync
 echo git remote rm ${Name} >>./git_sync
+
+echo echo -e \"【 添加Github远程仓库 】\" >>./git_sync
+echo git remote add ${Name} ${SSH} >>./git_sync
+echo echo -e \"【 添加Github远程链接 】\" >>./git_sync
+echo git remote set-url ${Name} ${SSH} >>./git_sync
+echo echo -e \"【 上传Github远程仓库 】\" >>./git_sync
+echo git push -u ${Name} +master >>./git_sync
+echo echo -e \"【 删除Github远程缓存 】\" >>./git_sync
+echo git remote rm ${Name} >>./git_sync
+
 echo echo -e \"\\n【 同步完成 】\\n\" >>./git_sync
 echo exit >>./git_sync
 chmod +x ./git_sync
