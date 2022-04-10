@@ -68,7 +68,7 @@ EOF
 fi
 
 echo -e "【 添加本地文件 】"
-git add ${Local}
+git add --all ${Local}
 echo -e "【 显示文件变化 】"
 git status
 echo -e "【请按任意键继续】"
@@ -116,7 +116,7 @@ EOF
 echo echo -e \"\\n【 开始同步 】\\n\" >>./git_sync
 echo cd ${Local} >>./git_sync
 echo echo -e \"【 添加本地文件 】\" >>./git_sync
-echo git add ${Local} >>./git_sync
+echo git add -all ${Local} >>./git_sync
 echo echo -e \"【 显示文件变化 】\" >>./git_sync
 echo git status >>./git_sync
 echo read -p \"请输入对本次上传的描述: \" MSG >>./git_sync
